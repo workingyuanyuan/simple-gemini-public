@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Gemini</title>
+    <style>
+        /* CSS reset & base styles */
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #f5f5f7;
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --accent-color: #0066cc; /* Apple-like blue */
+            --bg-color: #ffffff;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100%;
+            overflow: hidden; /* Prevent body scroll, use container scroll */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        /* Hero Section */
+        .hero {
+            flex-direction: column;
+            text-align: center;
+        }
+        .hero img.icon {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 2.5rem;
+            border-radius: 28px; /* App icon like border radius */
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+        }
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin: 0 0 1.2rem;
+        }
+        .hero p {
+            font-size: 1.6rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 0 3.5rem;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+        .cta-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 40px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #005bb5;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-main);
+        }
+        .btn-secondary:hover {
+            background-color: #e8e8ed;
+            transform: scale(1.02);
+        }
+
+        /* Feature Sections */
+        .feature {
+            display: flex;
+            gap: 5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            align-items: center;
+        }
+        .feature.reverse {
+            flex-direction: row-reverse;
+        }
+        .feature-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .feature-text h2 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin: 0 0 1.5rem;
+            line-height: 1.15;
+        }
+        .feature-text p {
+            font-size: 1.35rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 400;
+        }
+        .feature-text .subtext {
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            color: #a1a1a6;
+        }
+        .feature-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .feature-image img {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            object-fit: contain;
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: var(--text-main);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .fade-on-scroll {
+            opacity: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 960px) {
+            .feature, .feature.reverse {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+            .feature-text {
+                justify-content: flex-end;
+            }
+            .feature-image {
+                align-items: flex-start;
+            }
+            .hero h1 { font-size: 3.2rem; }
+            .hero p { font-size: 1.3rem; margin-bottom: 2.5rem; }
+            .hero img.icon { width: 100px; height: 100px; margin-bottom: 2rem; }
+            .feature-text h2 { font-size: 2.4rem; }
+            .feature-text p { font-size: 1.15rem; }
+            .feature-image img { max-height: 45vh; }
+            
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .btn { width: 100%; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Section 1: Hero -->
+        <section class="hero">
+            <img src="assets/icon.png" alt="Simple Gemini Icon" class="icon fade-in-up" style="animation-delay: 0.1s;">
+            <h1 class="fade-in-up" style="animation-delay: 0.2s;">Simple Gemini</h1>
+            <p class="fade-in-up" style="animation-delay: 0.3s;">Summarize selected text in Chrome, instantly and privately.</p>
+            <div class="cta-group fade-in-up" style="animation-delay: 0.4s;">
+                <a href="TODO_CHROME_WEB_STORE_URL" class="btn btn-primary">Add to Chrome</a>
+                <a href="./downloads/simple-gemini-0.1.0.zip" class="btn btn-secondary">Download package</a>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+            <div class="feature">
+                <div class="feature-text fade-on-scroll">
+                    <h2>Select. Click. Summarize.</h2>
+                    <p>Highlight text on any page and launch Simple Gemini right where you are reading.</p>
+                </div>
+                <div class="feature-image fade-on-scroll">
+                    <img src="assets/1.png" alt="Floating action icon">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+            <div class="feature reverse">
+                <div class="feature-text fade-on-scroll">
+                    <h2>Key points, without leaving the page.</h2>
+                    <p>Simple Gemini turns selected text into a concise summary, so you can keep reading with context.</p>
+                </div>
+                <div class="feature-image fade-on-scroll">
+                    <img src="assets/2.png" alt="Inline summary tooltip">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section>
+            <div class="feature">
+                <div class="feature-text fade-on-scroll">
+                    <h2>A focused popup for quick summaries.</h2>
+                    <p>Paste or type text, choose a model, and generate a clean summary in seconds.</p>
+                </div>
+                <div class="feature-image fade-on-scroll">
+                    <img src="assets/3.png" alt="Popup summary flow">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section>
+            <div class="feature reverse">
+                <div class="feature-text fade-on-scroll">
+                    <h2>Your engine. Your key. Your choice.</h2>
+                    <p>Use Chrome’s built-in Gemini Nano model when available, or connect Gemini API with your own key.</p>
+                    <p class="subtext">API keys are saved locally and are never shown again after saving.</p>
+                </div>
+                <div class="feature-image fade-on-scroll">
+                    <img src="assets/4.png" alt="Settings page">
+                </div>
+            </div>
+            <footer>
+                <span>&copy; 2026 Simple Gemini</span>
+                <a href="./privacy.html">Privacy Policy</a>
+                <a href="https://github.com/workingyuanyuan" target="_blank" rel="noopener">GitHub</a>
+            </footer>
+        </section>
+    </div>
+    
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const elements = entry.target.querySelectorAll('.fade-on-scroll');
+                    elements.forEach((el, index) => {
+                        el.style.animationDelay = `${index * 0.15}s`;
+                        el.classList.add('fade-in-up');
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.35 });
+
+        document.querySelectorAll('.feature').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
