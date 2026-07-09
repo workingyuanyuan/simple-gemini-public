@@ -26,7 +26,7 @@ If you are installing Simple Gemini manually using the ZIP package, follow these
 
 ### 1. Download and Extract / 下載與解壓
 1. Go to the [Homepage](https://workingyuanyuan.github.io/simple-gemini-public/) or navigate to the `downloads/` folder in this repository.
-2. Download the extension ZIP file (e.g., `simple-gemini-0.1.0.zip`).
+2. Download the extension ZIP file (e.g., `simple-gemini-0.1.1.zip`).
 3. Extract (unzip) the downloaded ZIP file to a folder on your computer.
 
 ### 2. Load Unpacked in Chrome / 載入已解壓的擴充功能
