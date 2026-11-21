@@ -2,7 +2,7 @@
 
 Public privacy policy, landing page, and launch materials for Simple Gemini.
 
-**Homepage**: [https://workingyuanyuan.github.io/simple-gemini-public/](https://workingyuanyuan.github.io/simple-gemini-public/)
+**Homepage**: [https://yuanaruru.com/simple-gemini-public/](https://yuanaruru.com/simple-gemini-public/)
 
 ---
 
@@ -25,7 +25,7 @@ This tool is designed to help users efficiently grasp the core points of any tex
 If you are installing Simple Gemini manually using the ZIP package, follow these steps:
 
 ### 1. Download and Extract / 下載與解壓
-1. Go to the [Homepage](https://workingyuanyuan.github.io/simple-gemini-public/) or navigate to the `downloads/` folder in this repository.
+1. Go to the [Homepage](https://yuanaruru.com/simple-gemini-public/) or navigate to the `downloads/` folder in this repository.
 2. Download the extension ZIP file (e.g., `simple-gemini-0.1.1.zip`).
 3. Extract (unzip) the downloaded ZIP file to a folder on your computer.
 
